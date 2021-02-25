@@ -1,6 +1,7 @@
 package cc.nevsky.java;
 
 import com.pi4j.wiringpi.SoftPwm;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import javax.ws.rs.GET;
@@ -10,6 +11,9 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/awul")
 public class AwulController {
+
+    private static final Logger LOG = Logger.getLogger(AwulController.class);
+
     /**
      * Пин для ШИМ.
      * Шестой сверху. № 12.
@@ -29,9 +33,11 @@ public class AwulController {
     @Produces(MediaType.TEXT_PLAIN)
     public String pwm(@PathParam int value) {
         if (value >= 0 && value <= 100) {
+            LOG.info("Set value = " + value);
             SoftPwm.softPwmWrite(AWUL_PIN, value);
             return "Set value = " + value;
         } else {
+            LOG.info("Incorrect value = " + value);
             return "Error. Use value 0..100.";
         }
     }
