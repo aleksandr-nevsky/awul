@@ -9,32 +9,31 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+/**
+ * Контроллер awul.
+ *
+ * @author Aleksandr Nevsky
+ */
 @Path("/awul")
 public class AwulController {
 
     private static final Logger LOG = Logger.getLogger(AwulController.class);
 
+
+
     /**
-     * Пин для ШИМ.
-     * Шестой сверху. № 12.
+     * Регулировка яркости. При value = 0 выключается.
+     *
+     * @param value значение ШИМ.
+     * @return значение ШИМ.
      */
-    private static final int AWUL_PIN = 1;
-
-    static {
-        // initialize wiringPi library
-        com.pi4j.wiringpi.Gpio.wiringPiSetup();
-
-        // create soft-pwm pins (min=0 ; max=100)
-        SoftPwm.softPwmCreate(AWUL_PIN, 0, 100);
-    }
-
     @Path("/pwm/{value}")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String pwm(@PathParam int value) {
         if (value >= 0 && value <= 100) {
             LOG.info("Set value = " + value);
-            SoftPwm.softPwmWrite(AWUL_PIN, value);
+            AwulValues.setPwmValue(value);
             return "Set value = " + value;
         } else {
             LOG.info("Incorrect value = " + value);
@@ -42,4 +41,59 @@ public class AwulController {
         }
     }
 
+    /**
+     * Получаем текущее значение ШИМ.
+     *
+     * @return текущее значение ШИМ.
+     */
+    @Path("/pwm/getValue")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public int getValue() {
+        LOG.info("getValue");
+        return AwulValues.getPwmValue();
+    }
+
+    /**
+     * Включаем/выключаем световой будильник.
+     *
+     * @param isOn включить или выключить.
+     */
+    @Path("/wakeupToggle/{isOn}")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String wakeupToggleSet(@PathParam boolean isOn) {
+        LOG.info("wakeupToggleSet " + isOn);
+        AwulValues.setIsPwmEventEnable(isOn);
+
+        return "Set " + isOn;
+    }
+
+    /**
+     * Включаем/выключаем световой будильник.
+     *
+     * @param isOn включить или выключить.
+     */
+    @Path("/wakeupToggle")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public boolean wakeupToggle(@PathParam boolean isOn) {
+        LOG.info("wakeupToggle");
+        return AwulValues.isIsPwmEventEnable();
+    }
+
+    /**
+     * Выключаем свет и будильник.
+     */
+    @Path("/lightOff")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String lightOff() {
+        LOG.info("lightOff");
+        AwulValues.setPwmValue(0);
+        SoftPwm.softPwmWrite(AwulValues.getAwulPin(), 0);
+        AwulValues.setIsNowPwmEnable(false);
+
+        return "lightOff";
+    }
 }
