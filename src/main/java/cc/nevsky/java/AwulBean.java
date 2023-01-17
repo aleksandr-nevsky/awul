@@ -15,6 +15,7 @@ public class AwulBean {
     private static final Logger LOGGER = Logger.getLogger(AwulBean.class);
 
     @Scheduled(cron="{cron.pwm.expr}")
+    @Scheduled(cron="{cron.pwm.expr2}")
     void cronAwul() {
         if(AwulValues.isIsPwmEventEnable()) {
             LOGGER.info("cronAwul PwmEvent enable");
