@@ -15,7 +15,6 @@ public class AwulLogicThead extends Thread {
         LOGGER.info("AwulLogicThead run.");
         try {
             int counter = 0;
-            int currentValue = 0;
 
             while (AwulValues.isIsNowPwmEnable()
                     && AwulValues.getPwmValue() < 100

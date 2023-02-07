@@ -17,7 +17,6 @@ import java.nio.file.Paths;
  */
 @Path("/temperature")
 public class TemperatureController {
-
     @ConfigProperty(name = "temperature.file.address")
     String tempFile;
 

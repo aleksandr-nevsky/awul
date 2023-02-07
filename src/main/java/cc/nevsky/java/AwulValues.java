@@ -1,7 +1,6 @@
 package cc.nevsky.java;
 
 import com.pi4j.wiringpi.SoftPwm;
-import org.jboss.logging.Logger;
 
 /**
  * Переключатели для awul.
@@ -9,8 +8,6 @@ import org.jboss.logging.Logger;
  * @author Aleksandr Nevsky
  */
 public class AwulValues {
-    private static final Logger LOGGER = Logger.getLogger(AwulValues.class);
-
     /**
      * Пин для ШИМ.
      * Шестой сверху. № 12.
@@ -47,7 +44,7 @@ public class AwulValues {
      * @param pwmValue значение ШИМ.
      */
     public static void setPwmValue(int pwmValue) {
-        if(pwmValue != AwulValues.pwmValue) {
+        if (pwmValue != AwulValues.pwmValue) {
             AwulValues.pwmValue = pwmValue;
             SoftPwm.softPwmWrite(AwulValues.getAwulPin(), pwmValue);
         }
