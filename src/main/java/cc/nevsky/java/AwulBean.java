@@ -26,5 +26,4 @@ public class AwulBean {
             LOGGER.info("cronAwul PwmEvent enable");
         }
     }
-
 }

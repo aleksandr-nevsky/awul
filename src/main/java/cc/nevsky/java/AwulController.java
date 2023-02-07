@@ -16,10 +16,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/awul")
 public class AwulController {
-
     private static final Logger LOG = Logger.getLogger(AwulController.class);
-
-
 
     /**
      * Регулировка яркости. При value = 0 выключается.
@@ -27,7 +24,7 @@ public class AwulController {
      * @param value значение ШИМ.
      * @return значение ШИМ.
      */
-    @Path("/pwm/{value}")
+    @Path("/pwm/")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String pwm(@PathParam int value) {
@@ -59,7 +56,7 @@ public class AwulController {
      *
      * @param isOn включить или выключить.
      */
-    @Path("/wakeupToggle/{isOn}")
+    @Path("/wakeupToggle/")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String wakeupToggleSet(@PathParam boolean isOn) {
